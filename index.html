@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>André Kazuo - Portfólio Evolutivo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sistema de luz verde em camadas -->
+    <div id="green-light" class="green-light">
+        <div id="green-light-core" class="green-light-core"></div>
+        <div id="green-light-mid" class="green-light-mid"></div>
+        <div id="green-light-outer" class="green-light-outer"></div>
+    </div>
+    
+    <div id="touch-explosion" class="touch-explosion"></div>
+    <div id="custom-cursor" class="custom-cursor"></div>
+<div id="cursor-trail" class="cursor-trail"></div>
+
+    <div id="stars-container" class="stars-container">
+        <div id="white-stars"></div>
+        <div id="green-stars"></div>
+    </div>
+
+    <canvas id="light-trail" class="light-trail-canvas"></canvas>
+    <div id="tech-logos" class="tech-logos-container">
+    <div class="tech-logo" style="--delay: 0s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+        <span>Python</span>
+    </div>
+    <div class="tech-logo" style="--delay: 0.2s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+        <span>JavaScript</span>
+    </div>
+    <div class="tech-logo" style="--delay: 0.4s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+        <span>HTML5</span>
+    </div>
+    <div class="tech-logo" style="--delay: 0.6s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+        <span>CSS3</span>
+    </div>
+    <div class="tech-logo" style="--delay: 0.8s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+        <span>React</span>
+    </div>
+    <div class="tech-logo" style="--delay: 1s">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+        <span>Node.js</span>
+    </div>
+</div>
+    
+    <div id="preloader">
+    <div class="preloader-terminal">
+        <div class="preloader-line">
+            <span class="preloader-prompt">&gt; </span>
+            <span id="preloader-text"></span>
+            <span class="preloader-cursor">█</span>
+        </div>
+        <div class="preloader-bar-wrapper">
+            <div class="preloader-bar" id="preloader-bar"></div>
+        </div>
+    </div>
+</div>
+    
+
+    <nav id="navbar">
+        <ul class="nav-links">
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#biometria">Bio</a></li>
+            <li><a href="#sobre-mim">Formação</a></li>
+            <li><a href="#experiencia-1">Experiência</a></li>
+        </ul>
+    </nav>
+
+    <header id="hero" class="hero-track">
+        <div class="hero-sticky">
+            <div class="hero-bg" id="hero-bg"></div> 
+            <div class="dark-overlay" id="dark-overlay"></div>
+            <div class="foreground-trees" id="foreground-trees"></div>
+            
+            <div class="hand hand-left" id="hand-left"></div>
+            <div class="hand hand-right" id="hand-right"></div>
+
+            <div class="hero-content" id="hero-content">
+                <h1 data-text="ANDRÉ KAZUO">ANDRÉ KAZUO</h1>
+                <p>Sejam bem-vindos! É um prazer me apresentar a vocês.</p>
+            </div>
+        </div>
+    </header>
+
+    <section id="biometria" class="experience-section" style="justify-content: center; background: #000; min-height: 100vh;">
+        <div id="matrix-face" class="matrix-face-container hidden">
+            <img src="face.png" alt="Kazuo Matrix Face" class="matrix-img">
+            <div class="scan-line"></div>
+        </div>
+    </section>
+
+    <section id="sobre-mim" class="about-section">
+        <div class="about-container">
+            <h2 class="section-title hidden">Um pouco sobre mim</h2>
+            <p class="section-subtitle hidden">Professor de Web, Full Stack Developer & Especialista Multidisciplinar</p>
+            
+            <div class="about-card hidden">
+                <h3>Formação Acadêmica</h3>
+                <p style="margin-bottom: 20px;">Uma jornada contínua de aprendizagem focada em tecnologia, gestão e inovação:</p>
+                
+                <div class="tech-tags-container">
+                    <span class="tech-tag primary">Bacharel em Sistemas de Informação</span>
+                    <span class="tech-tag primary">MBA Int. Artificial</span>
+                    <span class="tech-tag primary">MBA Eng. de Sistemas</span>
+                    <span class="tech-tag primary">MBA Gestão Empresarial</span>
+                    <span class="tech-tag primary">MBA Executivo BI</span>
+                    <span class="tech-tag secondary">ESP Full Stack</span>
+                    <span class="tech-tag secondary">ESP Ethical Hacking</span>
+                    <span class="tech-tag secondary">ESP IA na Prática</span>
+                    <span class="tech-tag secondary">ESP Governança de TI</span>
+                    <span class="tech-tag secondary">ESP Gestão de TI</span>
+                    <span class="tech-tag secondary">ESP Admin. Estratégica</span>
+                    <span class="tech-tag secondary">ESP Mkt Digital</span>
+                    <span class="tech-tag secondary">ESP Design Gráfico</span>
+                    <span class="tech-tag secondary">ESP Docência</span>
+                    <span class="tech-tag secondary">Téc. Eletrônica</span>
+                    <span class="tech-tag secondary">Téc. Informática</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiencias-timeline">
+        <div id="experiencia-1" class="experience-section">
+            <div class="terminal-container hidden">
+                <div class="terminal-header">
+                    <div class="terminal-button red"></div>
+                    <div class="terminal-button yellow"></div>
+                    <div class="terminal-button green"></div>
+                    <span class="terminal-title">C:\DOS\KAZUO_HISTORY.EXE</span>
+                </div>
+                <div class="terminal-body">
+                    <span class="cursor">></span>
+                    <div id="typewriter-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="experiencia-2" class="experience-section">
+            <div class="glass-panel hidden">
+                <h2 class="decode-text" data-value="A TRANSIÇÃO PARA O DIGITAL">A TRANSIÇÃO PARA O DIGITAL</h2>
+                <div class="decode-paragraph">
+                    <p class="decode-text" data-value="Com o aprofundamento técnico, dei meus primeiros passos na programação escrevendo linhas de código em Pascal e, em seguida, passei a desenvolver sistemas completos utilizando o Delphi.
+
+Acompanhei de perto a transição tecnológica dos anos 2000: o avanço das conexões de internet via rádio e o salto de armazenamento com a gravação de dados em CDs e DVDs.
+
+Nesse período de rápida transformação de hardware e software, expandi minha atuação para a infraestrutura, dominando o sistema Linux e a configuração de redes híbridas utilizando o Samba.
+
+Paralelamente, evoluí de forma contínua no ecossistema da Microsoft, acompanhando cada nova geração e me aprofundando nas ferramentas do Windows e do pacote Office.">Com o aprofundamento técnico, dei meus primeiros passos na programação em Pascal e Delphi.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="experiencia-3" class="experience-section">
+            <div class="ai-hud-container hidden">
+                <div class="ai-core-wrapper">
+                    <div class="ai-core-ring"></div>
+                    <div class="ai-core-center"></div>
+                    <span class="ai-status">STATUS: KAZUO.AI ENGAGED</span>
+                </div>
+                <div id="ai-synthesis-box" class="ai-synthesis-box"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-explosion" class="footer-explosion"></div>
+
+    <script src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

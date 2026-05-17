@@ -1,0 +1,856 @@
+/* ========================================== */
+/* 1. CONFIGURAÇÕES GERAIS E RESET            */
+/* ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html {
+    scroll-behavior: initial; /* Lenis assume o controlo */
+}
+
+body {
+    background-color: #050505; 
+    color: white;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+.custom-cursor {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: #00ffcc;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00ffcc, 0 0 20px rgba(0,255,204,0.5);
+    transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.cursor-trail {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: left 0.12s ease, top 0.12s ease;
+}
+
+a:hover ~ #custom-cursor,
+button:hover ~ #custom-cursor {
+    transform: translate(-50%, -50%) scale(1.8);
+    background: #fff;
+}
+
+/* ========================================== */
+/* 2. TELA DE CARREGAMENTO (PRELOADER)        */
+/* ========================================== */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease;
+}
+
+.preloader-terminal {
+    font-family: 'Courier New', monospace;
+    color: #00ffcc;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    min-width: 340px;
+}
+
+.preloader-prompt {
+    color: #00ff80;
+    font-weight: bold;
+}
+
+.preloader-cursor {
+    animation: blink 0.7s infinite;
+    color: #00ffcc;
+}
+
+.preloader-bar-wrapper {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 255, 204, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.preloader-bar {
+    height: 100%;
+    width: 0%;
+    background: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc;
+    transition: width 0.1s linear;
+}
+
+/* ========================================== */
+/* 3. BARRA DE NAVEGAÇÃO (MENU)               */
+/* ========================================== */
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: center;
+    transition: all 0.4s ease;
+    z-index: 1000; 
+}
+
+#navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 15px 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #00ffcc;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a.active {
+    color: #00ffcc;
+}
+
+/* ========================================== */
+/* 4. HERO SECTION (MÃOS E PARALLAX)          */
+/* ========================================== */
+.hero-track {
+    height: 300vh; 
+    position: relative;
+}
+
+.hero-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh; 
+    width: 100%;
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-bg {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: url('fundo.png') center/cover no-repeat;
+    z-index: 1; 
+}
+
+.foreground-trees {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: url('back.png') center/cover no-repeat;
+    z-index: 10; 
+}
+
+.hand {
+    position: absolute;
+    top: 0;
+    width: 50vw; 
+    height: 100vh;
+    background-size: contain; 
+    background-repeat: no-repeat;
+    z-index: 20; 
+    transition: filter 0.4s ease;
+}
+
+.hand-left { 
+    left: 0; 
+    background-image: url('mao1.png'); 
+    background-position: right center; 
+    /* Força a começar afastada para a esquerda e menor antes do JS agir */
+    transform: translateX(-50vw) scale(0.5); 
+}
+.hand-right { 
+    right: 0; 
+    background-image: url('mao2.png'); 
+    background-position: left center; 
+    /* Força a começar afastada para a direita e menor antes do JS agir */
+    transform: translateX(50vw) scale(0.5); 
+}
+
+.hand.glow-active { filter: drop-shadow(0 0 20px rgba(0, 255, 204, 0.8)); }
+
+.dark-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    opacity: 0;
+    z-index: 50; 
+}
+
+.hero-content {
+    position: relative;
+    z-index: 100;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 80px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    position: relative;
+}
+
+.hero-content h1::before,
+.hero-content h1::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-content h1::before {
+    color: #00ffcc;
+    animation: glitch-1 3s infinite linear;
+    clip-path: inset(0 0 0 0);
+}
+
+.hero-content h1::after {
+    color: #ff003c;
+    animation: glitch-2 3s infinite linear;
+    clip-path: inset(0 0 0 0);
+}
+
+@keyframes glitch-1 {
+    0%, 90%, 100% { transform: translate(0); clip-path: inset(100% 0 0 0); }
+    92%           { transform: translate(-3px, 1px); clip-path: inset(10% 0 60% 0); }
+    94%           { transform: translate(3px, -1px); clip-path: inset(50% 0 20% 0); }
+    96%           { transform: translate(-2px, 2px); clip-path: inset(30% 0 40% 0); }
+    98%           { transform: translate(0); clip-path: inset(100% 0 0 0); }
+}
+
+@keyframes glitch-2 {
+    0%, 90%, 100% { transform: translate(0); clip-path: inset(100% 0 0 0); }
+    91%           { transform: translate(3px, -2px); clip-path: inset(40% 0 30% 0); }
+    93%           { transform: translate(-3px, 1px); clip-path: inset(20% 0 55% 0); }
+    95%           { transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
+    97%           { transform: translate(0); clip-path: inset(100% 0 0 0); }
+}
+
+/* ========================================== */
+/* 5. LUZ VERDE (LENIS SCANNER)               */
+/* ========================================== */
+.green-light {
+    position: fixed; 
+    top: -250px; 
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.4) 0%, rgba(0, 255, 204, 0) 70%);
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 55; 
+    mix-blend-mode: screen;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* ========================================== */
+/* 6. ROSTO MATRIX (BIOMETRIA)                */
+/* ========================================== */
+.matrix-face-container {
+    position: relative;
+    display: inline-block;
+    max-width: 800px; /* TAMANHO AUMENTADO PARA MAIOR IMPACTO */
+    z-index: 60;
+    text-align: center;
+}
+
+.matrix-img {
+    width: 100%; /* Ocupa 100% do novo tamanho do contentor */
+    /* Mantenha os seus filtros e animações existentes abaixo... */
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(0, 255, 204, 0.4));
+    mix-blend-mode: screen;
+    position: relative;
+    animation: hologram-flicker 4s infinite alternate, matrix-glitch 3s infinite linear;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #00ffcc;
+    box-shadow: 0 0 15px #00ffcc;
+    top: 0;
+    animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* ========================================== */
+/* 7. EXPERIÊNCIA 1: TERMINAL (RAÍZES)        */
+/* ========================================== */
+.experience-section {
+    padding: 100px 5vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.terminal-container {
+    width: 100%;
+    max-width: 900px;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.terminal-header {
+    background: #1a1a1a;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-button { width: 12px; height: 12px; border-radius: 50%; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+.terminal-title { font-size: 12px; color: #666; flex: 1; text-align: center; font-family: monospace; }
+
+.terminal-body {
+    padding: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.cursor { animation: blink 1s infinite; font-weight: bold; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ========================================== */
+/* 8. EXPERIÊNCIA 2: DECODE (GLASS)           */
+/* ========================================== */
+.glass-panel {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.decode-text {
+    font-family: monospace;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+h2.decode-text { color: #00ffcc; font-size: 28px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+
+/* ========================================== */
+/* 9. EXPERIÊNCIA 3: IA HUD (FUTURO)          */
+/* ========================================== */
+.ai-hud-container {
+    display: block; /* Garante que fica embaixo */
+    width: 100%;
+    max-width: 1000px;
+    background: radial-gradient(circle at top, rgba(0, 255, 204, 0.05), transparent);
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    padding: 60px;
+    border-radius: 15px;
+    text-align: center;
+    clear: both;
+}
+
+.ai-core-wrapper { margin-bottom: 40px; position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
+
+.ai-core-center { width: 30px; height: 30px; background: #00ffcc; border-radius: 50%; box-shadow: 0 0 30px #00ffcc; animation: core-pulse 2s infinite alternate; }
+
+.ai-core-ring { position: absolute; width: 80px; height: 80px; border: 2px dashed #00ffcc; border-radius: 50%; animation: ring-spin 10s linear infinite; }
+
+.ai-status { margin-top: 20px; display: block; font-size: 10px; color: #00ffcc; letter-spacing: 4px; }
+
+.ai-word { display: inline-block; opacity: 0; filter: blur(5px); transform: translateY(10px); transition: all 0.4s ease; margin-right: 5px; }
+.ai-word.glow-in { opacity: 1; filter: blur(0); transform: translateY(0); }
+.highlight-tech { color: #00ffcc; font-weight: 900; text-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+
+@keyframes core-pulse { from { transform: scale(0.8); opacity: 0.5; } to { transform: scale(1.2); opacity: 1; } }
+@keyframes ring-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ========================================== */
+/* 10. SOBRE MIM E CARTÕES                    */
+/* ========================================== */
+.about-container { max-width: 1200px; width: 100%; }
+.section-title { font-size: 40px; margin-bottom: 10px; text-align: center; }
+.section-subtitle { text-align: center; color: #888; margin-bottom: 60px; }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+.about-card {
+    background: #111;
+    border: 1px solid #222;
+    padding: 40px;
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+.about-card:hover { border-color: #00ffcc; transform: translateY(-10px); }
+
+/* TAGS */
+.tech-tags-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.tech-tag { padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+.tech-tag.primary { background: #00ffcc; color: #000; }
+.tech-tag.secondary { border: 1px solid #00ffcc; color: #00ffcc; }
+.tech-tag.cyber-cyan { background: rgba(0, 255, 204, 0.1); color: #00ffcc; border: 1px solid #00ffcc; }
+
+/* ========================================== */
+/* 11. ESTRELAS E OBSERVER                     */
+/* ========================================== */
+.star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle linear infinite; }
+@keyframes twinkle { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(0.5); } }
+
+.hidden { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
+.show { opacity: 1; transform: translateY(0); }
+
+/* Reset e Base */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+body { background-color: #050505; color: white; overflow-x: hidden; }
+
+/* FIX: Centralização do Sobre Mim */
+.about-section {
+    width: 100%;
+    padding: 100px 5vw;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    text-align: center;      /* Garante que o texto interno centralize */
+    background: #050505;
+}
+
+.about-container {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 20px;
+    margin: 0 auto; /* Centraliza a caixa */
+}
+
+.tech-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center; /* Centraliza as tags */
+    margin-top: 30px;
+}
+
+/* FIX: Dark Overlay */
+.dark-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
+    opacity: 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+/* FIX: Z-Index da Luz e Rosto */
+.green-light {
+    position: fixed;
+    z-index: 55; /* Atrás do rosto */
+    mix-blend-mode: screen;
+}
+
+.matrix-face-container {
+    position: relative;
+    z-index: 60; /* À frente da luz */
+    text-align: center;
+}
+
+.matrix-img {
+    max-width: 450px;
+    width: 100%;
+    filter: brightness(1.2);
+    mix-blend-mode: screen;
+}
+
+/* Resto dos estilos (Terminal, Decode, IA, etc.) mantenha os que já enviamos anteriormente */
+.experience-section { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 100px 5vw; }
+.hidden { opacity: 0; transform: translateY(40px); transition: all 1s ease; }
+.show { opacity: 1; transform: translateY(0); }
+.tech-tag { padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+.tech-tag.primary { background: #00ffcc; color: #000; }
+.tech-tag.secondary { border: 1px solid #00ffcc; color: #00ffcc; }
+
+/* ========================================== */
+/* EFEITOS DE EXPLOSÃO (TEXTO E TOQUE)        */
+/* ========================================== */
+.hero-content {
+    opacity: 0;
+    transform: translateY(0);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+}
+
+/* Efeito de expansão e sumiço do KAZUO */
+.hero-content.explode-out {
+    transform: scale(3) translateY(-50px);
+    filter: blur(15px);
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+/* Clarão verde quando as mãos se tocam */
+.touch-explosion {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 255, 128, 1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    box-shadow: 0 0 100px 50px rgba(0, 255, 128, 0.8), 
+                0 0 200px 100px rgba(0, 200, 100, 0.6);
+    z-index: 54; /* Fica entre as mãos e o overlay escuro */
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.5s ease;
+}
+
+.touch-explosion.active {
+    transform: translate(-50%, -50%) scale(150);
+    opacity: 1;
+    animation: fadeExplosion 0.8s forwards 0.2s; /* Desaparece após o clarão */
+}
+
+@keyframes fadeExplosion {
+    to { opacity: 0; }
+}
+
+/* ========================================== */
+/* RESPONSIVIDADE (MOBILE)                    */
+/* ========================================== */
+@media (max-width: 768px) {
+    .glitch {
+        font-size: 3rem !important; /* Diminui o texto KAZUO */
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+
+    /* Oculta as mãos e o clarão do toque em ecrãs pequenos */
+    .hand-left, .hand-right, .touch-explosion {
+        display: none !important;
+    }
+
+    /* Centraliza e destaca mais o texto já que não temos as mãos */
+    .hero-content {
+        transform: translateY(-15vh); 
+    }
+    
+    .hero-content h1 {
+        font-size: 3.5rem !important; /* Garante que KAZUO fique grande e legível */
+    }
+
+    .matrix-img {
+        max-width: 80% !important;
+    }
+
+    .experience-section {
+        padding: 20px !important;
+    }
+
+    .glass-panel, .ai-hud-container {
+        width: 95% !important;
+        padding: 20px !important;
+    }
+
+    nav .nav-links {
+        gap: 15px !important;
+    }
+    
+    nav .nav-links li a {
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================== */
+/* FUNDO DE ESTRELAS (BRANCAS E VERDES)       */
+/* ========================================== */
+.stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Atrás de tudo, mas acima do fundo da cor do body */
+    pointer-events: none;
+}
+
+#white-stars, #green-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Será controlado pelo JavaScript no scroll */
+}
+
+.star {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.star.white {
+    background: #fff;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.star.green {
+    background: #00ff80;
+    box-shadow: 0 0 8px rgba(0, 255, 128, 0.9);
+}
+
+/* ========================================== */
+/* REDUZIR ESPAÇO ENTRE SEÇÕES                */
+/* ========================================== */
+.experience-section {
+    min-height: auto !important; /* Remove alturas travadas em 100vh se houver */
+    padding: 10vh 20px !important; /* Reduz o padding vertical (antes era muito maior) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Garante que os painéis fiquem acima das estrelas */
+.glass-panel, .ai-hud-container, .terminal-container {
+    position: relative;
+    z-index: 10; 
+}
+/* ========================================== */
+/* NOVO EFEITO DO ROSTO (HOLOGRAMA & GLITCH)  */
+/* ========================================== */
+.matrix-img {
+    max-width: 450px;
+    width: 100%;
+    /* Filtro base esverdeado com brilho */
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(0, 255, 204, 0.4));
+    mix-blend-mode: screen;
+    position: relative;
+    /* Animação dupla: Piscar como holograma e dar pequenos "choques" na imagem */
+    animation: hologram-flicker 4s infinite alternate, matrix-glitch 3s infinite linear;
+}
+
+@keyframes hologram-flicker {
+    0%, 100% { opacity: 0.8; filter: brightness(1.2) drop-shadow(0 0 10px rgba(0, 255, 204, 0.3)); transform: scale(1); }
+    50% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 40px rgba(0, 255, 204, 0.8)); transform: scale(1.02); }
+    52% { opacity: 0.4; filter: brightness(0.5) hue-rotate(-20deg); transform: scale(0.98) skewX(5deg); }
+    54% { opacity: 1; filter: brightness(1.5); transform: scale(1.02) skewX(0); }
+}
+
+@keyframes matrix-glitch {
+    0%, 95% { clip-path: inset(0 0 0 0); }
+    96% { clip-path: inset(20% 0 60% 0); transform: translate(-10px, 5px); }
+    97% { clip-path: inset(60% 0 10% 0); transform: translate(10px, -5px); }
+    98% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+
+/* Scanner line mais intensa */
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 4px; /* Mais grossa */
+    background: rgba(0, 255, 204, 0.9);
+    box-shadow: 0 0 30px 10px rgba(0, 255, 204, 0.6);
+    top: 0;
+    animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ========================================== */
+/* EXPLOSÃO NO RODAPÉ                         */
+/* ========================================== */
+.footer-explosion {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 255, 204, 1);
+    border-radius: 50%;
+    transform: translate(-50%, 50%) scale(0);
+    box-shadow: 0 0 100px 50px rgba(0, 255, 204, 0.9), 
+                0 0 300px 150px rgba(0, 200, 100, 0.7);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.6s ease;
+}
+
+.footer-explosion.explode {
+    transform: translate(-50%, 50%) scale(150); /* Cobre o ecrã no final */
+    opacity: 1;
+    animation: fadeFooterExplosion 1s forwards 0.3s;
+}
+
+@keyframes fadeFooterExplosion {
+    to { opacity: 0; }
+}
+
+/* ========================================== */
+/* SCAN LINES (EFEITO CRT)                    */
+/* ========================================== */
+.experience-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.terminal-container,
+.glass-panel,
+.ai-hud-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Vinheta nas bordas das seções */
+.experience-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 60%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ========================================== */
+/* LOGOS DE TECNOLOGIA                        */
+/* ========================================== */
+.tech-logos-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 56;
+    overflow: hidden;
+}
+
+.tech-logo {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.4));
+}
+
+.tech-logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.tech-logo span {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #00ffcc;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.tech-logo.visible {
+    opacity: 1;
+}
+
+.tech-logo.fadeout {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
