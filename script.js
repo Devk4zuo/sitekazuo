@@ -206,10 +206,10 @@ window.addEventListener('load', () => {
     const preloaderText = document.getElementById('preloader-text');
     const preloaderBar = document.getElementById('preloader-bar');
     const messages = [
-        'INITIALIZING KAZUO.EXE',
-        'LOADING EXPERIENCE DATA',
-        'CALIBRATING NEURAL LINK',
-        'SYSTEM READY'
+        'INICIALIZANDO SITE',
+        'CARREGANDO DADOS',
+        'ATIVANDO INFORMAÇÕES',
+        'TUDO PRONTO!'
     ];
     let msgIndex = 0;
     let charIndex = 0;
